@@ -28,12 +28,12 @@
 <script>
   export default {
     methods: {
-      logout() {
+      logout () {
             const api = `${process.env.VUE_APP_API}logout`;
             // console.log(api);
             this.$http.post(api, this.user)
-            .then((res)=>{
-              if(res.data.success){
+            .then((res) => {
+              if (res.data.success) {
                 this.$router.push('/login');
               }
             })
