@@ -36,7 +36,8 @@
             <button class="btn btn-outline-primary btn-sm"
             @click="openModal(false,item)">編輯</button>
             <!-- @click="openModal(false,item)"的item為v-for="item in products" -->
-            <button class="btn btn-outline-danger btn-sm">刪除</button>
+            <button class="btn btn-outline-danger btn-sm"
+            @click="openDelModal(item)">刪除</button>
           </div>
         </td>
       </tr>
@@ -52,10 +53,13 @@
       updateProduct觸發事件tempProduct = item
      -->
   </ProductModal>
+  <DelModal :item="tempProduct"
+  ref="delModal"></DelModal>
 </template>
 <!-- 回傳資料 -->
 <script>
 import ProductModal from '../components/ProductModal.vue';
+import DelModal from '@/components/DelModal.vue';
 export default {
   data () {
     return {
@@ -69,6 +73,7 @@ export default {
   },
   components: {
     ProductModal,
+    DelModal,
   },
   methods: {
     getProducts () {
@@ -123,6 +128,13 @@ export default {
         this.getProducts();
       });
     },
+    openDelModal (item) {
+      // console.log("delete");
+      this.tempProduct = { ...item };
+      // console.log(this.tempProduct);
+      const delComponent = this.$refs.delModal;
+      delComponent.showModal();
+    }
   },
   // 觸發
   created () {

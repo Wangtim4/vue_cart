@@ -42,6 +42,10 @@
                   ref="fileInput"
                   @change="uploadFile"
                 />
+                <!-- 8-1
+                  @change="uploadFile"觸發
+                  ref="fileInput"取得圖片資料
+                -->
               </div>
               <img class="img-fluid" :src="tempProduct.imageUrl" alt="" />
               <!-- 延伸技巧，多圖 -->
@@ -224,7 +228,28 @@ export default {
     },
     hideModal () {
       this.modal.hide();
-    }
+    },
+    uploadFile () {
+      // 1-1 取值
+      const uploadedFile = this.$refs.fileInput.files[0];
+      // 1-2 檢查取得值
+      console.dir(uploadedFile);
+      // 2-1 透过JS方法FormData，將取得資料轉為formData格式才能上傳
+      const formData = new FormData();
+      // 2-2將內容上傳
+      formData.append('file-to-upload', uploadedFile)
+      // 2-3 上傳的API路徑 "/api/thisismycourse2/admin/upload"
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
+      this.$http.post(url, formData)
+      .then((res) => {
+        // 檢查
+        // console.log(res.data);
+        if (res.data.success) {
+          this.tempProduct.imageUrl = res.data.imageUrl
+          // console.log(this.tempProduct.imageUrl);
+        }
+      })
+    },
   },
   // 元件載入完成才會運作
   mounted () {
