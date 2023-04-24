@@ -128,11 +128,14 @@ export default {
         this.getProducts();
       });
     },
+    // 9-刪除功能
     openDelModal (item) {
       // console.log("delete");
       this.tempProduct = { ...item };
       // console.log(this.tempProduct);
+      // this.$refs.delModal獲取資料
       const delComponent = this.$refs.delModal;
+      // 顯示資料
       delComponent.showModal();
     }
   },
