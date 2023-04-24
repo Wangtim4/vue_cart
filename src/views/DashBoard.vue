@@ -1,14 +1,25 @@
 <template>
   <Navbar></Navbar>
-  <div class="container-fluid">
+  <div class="container-fluid mt-3 position-relative">
+    <ToastMessages></ToastMessages>
     <router-view />
   </div>
 </template>
 <script>
 import Navbar from '../components/NavBar.vue';
+// 12.導入mitt
+import emitter from '@/methods/emmiter';
+import ToastMessages from '@/components/ToastMessages.vue';
 export default {
   components: {
     Navbar,
+    ToastMessages,
+  },
+  // 12.最外層加上 provide()
+  provide () {
+    return {
+      emitter,
+    };
   },
   created () {
     // cookie是否存在
