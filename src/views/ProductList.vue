@@ -93,7 +93,9 @@ export default {
       const productComponent = this.$refs.productModal;
       this.$http.post(api, { data: this.tempProduct }).then((response) => {
         console.log(response);
+        // 關閉視窗
         productComponent.hideModal();
+        // 重新讀取列表
         this.getProducts();
       });
     },
