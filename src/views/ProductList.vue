@@ -54,7 +54,8 @@
      -->
   </ProductModal>
   <DelModal :item="tempProduct"
-  ref="delModal"></DelModal>
+  ref="delModal"
+  @del-item="delProduct"></DelModal>
 </template>
 <!-- 回傳資料 -->
 <script>
@@ -128,7 +129,7 @@ export default {
         this.getProducts();
       });
     },
-    // 9-刪除功能
+    // 9-1開啟刪除
     openDelModal (item) {
       // console.log("delete");
       this.tempProduct = { ...item };
@@ -137,7 +138,23 @@ export default {
       const delComponent = this.$refs.delModal;
       // 顯示資料
       delComponent.showModal();
-    }
+    },
+    // 9-2刪除功能
+    delProduct () {
+      // 串接API路徑和方法 [API]: /api/:api_path/admin/product/:product_id [方法]: delete
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`;
+      // console.log(url);
+      // API路徑和方法
+      this.$http.delete(url)
+      .then((res) => {
+        // console.log(res.data);
+        const delComponent = this.$refs.delModal;
+        // 關閉視窗
+        delComponent.hideModal();
+        // 從新獲取資料
+        this.getProducts();
+      });
+    },
   },
   // 觸發
   created () {
