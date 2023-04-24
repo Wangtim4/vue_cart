@@ -1,4 +1,7 @@
 <template>
+  <!-- 11-3.加入讀取效果頁面 -->
+  <!-- 11-3-2用props傳入狀態isLoading -->
+  <LoadIng :active="isLoading"></LoadIng>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar w/ text</a>
@@ -27,12 +30,22 @@
 
 <script>
   export default {
+    data () {
+      return {
+        // <!-- 11-3-2用props傳入狀態isLoading -->
+        isLoading: false,
+      }
+    },
     methods: {
       logout () {
             const api = `${process.env.VUE_APP_API}logout`;
             // console.log(api);
+            // 11-4 資料尚未讀取完成
+            this.isLoading = true;
             this.$http.post(api, this.user)
             .then((res) => {
+              // 11-4 資料讀取完成
+              this.isLoading = false;
               if (res.data.success) {
                 this.$router.push('/login');
               }

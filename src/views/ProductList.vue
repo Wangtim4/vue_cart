@@ -1,4 +1,7 @@
 <template>
+  <!-- 11-3.加入讀取效果頁面 -->
+  <!-- 11-3-2用props傳入狀態isLoading -->
+  <LoadIng :active="isLoading"></LoadIng>
   <div class="text-end">
     <!--  @click="$refs.productModal"指向 下方<ProductModal ref="productModal"></ProductModal>-->
     <!-- <button class="btn btn-primary" type="button" @click="$refs.productModal.showModal()"> 改為-->
@@ -70,6 +73,8 @@ export default {
       tempProduct: {},
       // #7-1判斷是否為新增
       isNew: false,
+      // <!-- 11-3-2用props傳入狀態isLoading -->
+      isLoading: false,
     };
   },
   components: {
@@ -79,8 +84,13 @@ export default {
   methods: {
     getProducts () {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
+      // 11-3-3傳入狀態isLoading
+      // 11-4 資料尚未讀取完成
+      this.isLoading = true;
       this.$http.get(api)
         .then((res) => {
+          // 11-4 資料讀取完成
+          this.isLoading = false;
           if (res.data.success) {
             // console.log(res.data);
             this.products = res.data.products;

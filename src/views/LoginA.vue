@@ -1,4 +1,7 @@
 <template>
+    <!-- 11-3.加入讀取效果頁面 -->
+  <!-- 11-3-2用props傳入狀態isLoading -->
+  <LoadIng :active="isLoading"></LoadIng>
     <div class="container mt-5">
         <div class="row justify-content-center">
 
@@ -28,8 +31,9 @@ export default {
             user: {
                 username: '',
                 password: ''
-            }
-
+            },
+            // <!-- 11-3-2用props傳入狀態isLoading -->
+            isLoading: false,
         };
     },
     methods: {
@@ -37,9 +41,13 @@ export default {
             // console.log('login');
             const api = `${process.env.VUE_APP_API}admin/signin`;
             console.log(api);
+            // 11-4 資料尚未讀取完成
+            this.isLoading = true;
             this.$http.post(api, this.user)
                 .then((res) => {
                 // 假設登入成功轉入dash
+                // 11-4 資料讀取完成
+                this.isLoading = false;
                 if (res.data.success) {
                     // console.log(res);
                     const { token, expired } = res.data;
