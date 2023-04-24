@@ -2,7 +2,7 @@
   <div class="text-end">
     <!--  @click="$refs.productModal"指向 下方<ProductModal ref="productModal"></ProductModal>-->
     <!-- <button class="btn btn-primary" type="button" @click="$refs.productModal.showModal()"> 改為-->
-    <button class="btn btn-primary" type="button" @click="openModal()">
+    <button class="btn btn-primary" type="button" @click="openModal(true)">
       新增產品
     </button>
   </div>
@@ -33,7 +33,9 @@
         </td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm">編輯</button>
+            <button class="btn btn-outline-primary btn-sm"
+            @click="openModal(false,item)">編輯</button>
+            <!-- @click="openModal(false,item)"的item為v-for="item in products" -->
             <button class="btn btn-outline-danger btn-sm">刪除</button>
           </div>
         </td>
@@ -61,6 +63,8 @@ export default {
       pagination: {},
       //  tempProduct: {}外層傳送
       tempProduct: {},
+      // #7-1判斷是否為新增
+      isNew: false,
     };
   },
   components: {
@@ -80,18 +84,38 @@ export default {
           console.log(err);
         })
     },
-    openModal () {
-      // console.log("open");
-      // this.tempProduct = {};
+    // #7-1判斷是否為新增
+    openModal (isNew, item) {
+      // 7-2用openModal (isNew, item)傳入的值檢查isNew是否為新增, item為this.tempProduct
+      // console.log(isNew, item);
+      // 7-3判斷是否為新增
+      if (isNew) {
+        // 7-3新增-每次打開清空
+        this.tempProduct = {};
+      } else {
+        // 7-3更改-解構API取得item
+        this.tempProduct = { ...item };
+      }
+      // 7-3將上方isNew狀態存入
+      this.isNew = isNew;
+      // 6.productModal傳入的值
       const productComponent = this.$refs.productModal;
       productComponent.showModal();
     },
     updateProduct (item) {
       // console.log(item);
       this.tempProduct = item;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+      // 7-5新增 [API]: /api/:api_path/admin/product [方法]: post
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+      let httpMethod = 'post';
+      // 7-5編輯[API]: /api/:api_path/admin/product/:id  [方法]: put
+      if (!this.isNew) {
+      api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+      httpMethod = 'put';
+      }
       const productComponent = this.$refs.productModal;
-      this.$http.post(api, { data: this.tempProduct }).then((response) => {
+      // 7-5-3判斷路徑
+      this.$http[httpMethod](api, { data: this.tempProduct }).then((response) => {
         console.log(response);
         // 關閉視窗
         productComponent.hideModal();
