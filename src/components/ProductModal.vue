@@ -194,8 +194,7 @@
   </div>
 </template>
 <script>
-// 載入node_modules\bootstrap\js\src\modal 使用
-import Modal from "bootstrap/js/dist/modal";
+import modalMixin from '@/mixins/modalMixin';
 
 export default {
   props: {
@@ -222,13 +221,8 @@ export default {
       tempProduct: {},
     }
   },
+  mixins: [modalMixin],
   methods: {
-    showModal () {
-      this.modal.show();
-    },
-    hideModal () {
-      this.modal.hide();
-    },
     uploadFile () {
       // 1-1 取值
       const uploadedFile = this.$refs.fileInput.files[0];
@@ -251,11 +245,5 @@ export default {
       })
     },
   },
-  // 元件載入完成才會運作
-  mounted () {
-    // this.$refs.modal指向外部html的ref="modal" 動元素
-    // this.modal指向內部data的modal:{}
-    this.modal = new Modal(this.$refs.modal);
-  }
 }
 </script>
