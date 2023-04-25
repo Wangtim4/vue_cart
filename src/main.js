@@ -15,6 +15,9 @@ import router from './router'
 // <!-- 14.3套用全域的千分號方法 -->
 import { currency } from './methods/filter';
 
+// 15.Toast訊息改為全域使用
+import $httpMessageState from './methods/pushMessageState';
+
 // 原本-createApp(App).use(router).mount('#app')
 // npmjs.com/package/vue-axios參找此網址改為下列
 const app = createApp(App)
@@ -22,6 +25,9 @@ const app = createApp(App)
 app.config.globalProperties.$filter = {
     currency,
 };
+
+// 15.Toast訊息改為全域使用
+app.config.globalProperties.$httpMessageState = $httpMessageState;
 
 app.use(VueAxios, axios)
 app.use(router)

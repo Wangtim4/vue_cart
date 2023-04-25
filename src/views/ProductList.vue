@@ -146,21 +146,22 @@ export default {
         // 關閉視窗
         productComponent.hideModal();
         // 重新讀取列表
-        // this.getProducts();
-        // emitter
-        if (response.data.success) {
-          this.getProducts();
-          this.emitter.emit('push-message', {
-            style: 'success',
-            title: '更新成功',
-          });
-        } else {
-          this.emitter.emit('push-message', {
-            style: 'danger',
-            title: '更新失敗',
-            content: response.data.message.join('、'),
-          });
-        }
+        this.getProducts();
+        this.$httpMessageState(response);
+        // Toast emitter
+        // if (response.data.success) {
+        //   this.getProducts();
+        //   this.emitter.emit('push-message', {
+        //     style: 'success',
+        //     title: '更新成功',
+        //   });
+        // } else {
+        //   this.emitter.emit('push-message', {
+        //     style: 'danger',
+        //     title: '更新失敗',
+        //     content: response.data.message.join('、'),
+        //   });
+        // }
       });
     },
     // 9-1開啟刪除
