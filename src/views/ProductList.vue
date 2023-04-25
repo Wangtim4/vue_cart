@@ -46,7 +46,10 @@
       </tr>
     </tbody>
   </table>
-
+  <PaginaTion :pages = pagination
+  @emit-pages="getProducts"></PaginaTion>
+  <!--13.3-1 :pages = pagination 前內props後外pagination -->
+  <!-- 13.3-2 @emit-pages="getProducts" 前內emit後外getProducts觸發事件 -->
   <ProductModal ref="productModal" :product="tempProduct" @update-product="updateProduct">
     <!-- :product="tempProduct"前內後外 -->
     <!-- @update-product="updateProduct"
@@ -64,6 +67,7 @@
 <script>
 import ProductModal from '../components/ProductModal.vue';
 import DelModal from '@/components/DelModal.vue';
+import PaginaTion from '@/components/PaginaTion.vue';
 export default {
   data () {
     return {
@@ -80,11 +84,14 @@ export default {
   components: {
     ProductModal,
     DelModal,
+    PaginaTion,
   },
   inject: ['emitter'],
   methods: {
-    getProducts () {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
+    // 13.製作分頁
+    // [API]: /api/:api_path/admin/products?page=:page [方法]: get
+    getProducts (page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
       // 11-3-3傳入狀態isLoading
       // 11-4 資料尚未讀取完成
       this.isLoading = true;
@@ -93,8 +100,9 @@ export default {
           // 11-4 資料讀取完成
           this.isLoading = false;
           if (res.data.success) {
-            // console.log(res.data);
+            console.log(res.data);
             this.products = res.data.products;
+            // 13.分頁資訊
             this.pagination = res.data.pagination;
           }
         }).catch((err) => {
