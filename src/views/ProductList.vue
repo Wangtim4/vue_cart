@@ -24,11 +24,12 @@
       <tr v-for="item in products" :key="item.id">
         <td>{{ item.category }}</td>
         <td>{{ item.title }}</td>
+        <!-- 14.3套用全域的千分號方法 -->
         <td class="text-right">
-          {{ item.price }}
+          {{ $filter.currency(item.price) }}
         </td>
         <td class="text-right">
-          {{ item.origin_price }}
+          {{ $filter.currency(item.origin_price) }}
         </td>
         <td>
           <span class="text-success" v-if="item.is_enabled">啟用</span>
