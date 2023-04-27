@@ -2,6 +2,7 @@
   <!-- 11-3.加入讀取效果頁面 -->
   <!-- 11-3-2用props傳入狀態isLoading -->
   <LoadIng :active="isLoading"></LoadIng>
+  <h1 class="text-center">產品列表</h1>
   <div class="text-end">
     <!--  @click="$refs.productModal"指向 下方<ProductModal ref="productModal"></ProductModal>-->
     <!-- <button class="btn btn-primary" type="button" @click="$refs.productModal.showModal()"> 改為-->
@@ -9,7 +10,7 @@
       新增產品
     </button>
   </div>
-  <table class="table mt-4">
+  <table class="table mt-4 border border-2 ">
     <thead>
       <tr>
         <th width="120">分類</th>
@@ -66,7 +67,7 @@
 </template>
 <!-- 回傳資料 -->
 <script>
-import ProductModal from '../components/ProductModal.vue';
+import ProductModal from '@/components/ProductModal.vue';
 import DelModal from '@/components/DelModal.vue';
 import PaginaTion from '@/components/PaginaTion.vue';
 export default {

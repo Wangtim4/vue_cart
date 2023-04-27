@@ -11,12 +11,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <div class="navbar-nav me-auto mb-2 mb-lg-0">
-          <router-link to="/dashboard/products" class="nav-link">產品</router-link>
-          <router-link to="/dashboard/orders" class="nav-link">訂單</router-link>
+          <router-link to="/about" class="nav-link">最新消息</router-link>
+          <router-link to="/products" class="nav-link">產品介紹</router-link>
+          <router-link to="/cart" class="nav-link">購物車</router-link>
         </div>
-            <button type="button" class="btn btn-outline-info" @click.prevent="logout">
-              登出
-            </button>
       </div>
     </div>
   </nav>
@@ -31,20 +29,6 @@ export default {
     }
   },
   methods: {
-    logout () {
-      const api = `${process.env.VUE_APP_API}logout`;
-      // console.log(api);
-      // 11-4 資料尚未讀取完成
-      this.isLoading = true;
-      this.$http.post(api, this.user)
-        .then((res) => {
-          // 11-4 資料讀取完成
-          this.isLoading = false;
-          if (res.data.success) {
-            this.$router.push('/login');
-          }
-        })
-    }
   }
 }
 </script>

@@ -13,7 +13,7 @@ import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import App from './App.vue'
 import router from './router'
 // <!-- 14.3套用全域的千分號方法 -->
-import { currency } from './methods/filter';
+import { currency, date } from './methods/filter';
 
 // 15.Toast訊息改為全域使用
 import $httpMessageState from './methods/pushMessageState';
@@ -24,6 +24,7 @@ const app = createApp(App)
 // 14.3套用全域的千分號方法
 app.config.globalProperties.$filter = {
     currency,
+    date,
 };
 
 // 15.Toast訊息改為全域使用
