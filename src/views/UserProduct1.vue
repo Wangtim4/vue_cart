@@ -1,15 +1,27 @@
 <template>
-  <Loading :active="isLoading"></Loading>
   <div class="container-fluid">
     <div class="row mt-4 ">
-      <div class="col-lg-2 mt-5 d-flex flex-column ">
-        <div class="d-none d-lg-block">
-          <a href="#" class="btn btn-primary mb-2 d-block">分類1</a>
-          <a href="#" class="btn btn-primary mb-2 d-block">分類1</a>
-          <a href="#" class="btn btn-primary mb-2 d-block">分類1</a>
-        </div>
+      <div class="col-lg-4 mt-5 d-flex flex-column ">
+        <table class="table">
+          <thead>
+            <th>品名</th>
+            <th>數量</th>
+            <th>單價</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <template>
+              <tr v-for="item in cart.carts" :key="item.id">
+                <td>{{ item.final_total }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.qty }}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
       </div>
-      <div class="col-lg-10 col-md-12">
+      <div class="col-lg-7 col-md-12">
       <div class="row d-flex justify-content-between">
       <template v-for="item in products" :key="item.id">
         <div class="col-lg-4 col-md-4">
@@ -52,18 +64,18 @@ export default {
         // 2對應品項id
         loadingItem: '',
       },
+      cart: {},
+      coupon_code: '',
     };
   },
   methods: {
     getProducts () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products`;
       // console.log(url);
-      this.isLoading = true;
       this.$http.get(url).then((response) => {
         // console.log(response);
         this.products = response.data.products;
         // console.log('products:', response);
-        this.isLoading = false;
       });
     },
     getProduct (id) {
@@ -83,11 +95,19 @@ export default {
       .then((res) => {
         this.status.loadingItem = '';
         console.log(res);
-      })
-    }
+      });
+    },
+    getCart () {
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(url).then((response) => {
+        console.log(response);
+        this.cart = response.data.data;
+      });
+    },
   },
   created () {
     this.getProducts();
+    this.getCart();
   },
 };
 </script>
